@@ -1,0 +1,1 @@
+export type ITransactionType = "Buy To Open" | "Sell To Open" | "Buy To Close" | "Sell To Close" | "Dividend" | "Assignment" | "Fee" | "Other";
