@@ -46,7 +46,7 @@ const GroupManagement: React.FC<IGroupManagementProps> = (props: IGroupManagemen
     return <Button onClick={() => editGroup(row.Id)}>Edit</Button>;
   };
 
-  const textFieldChanged = (value: string, row: any, fieldName: string): void => {
+  const textFieldChanged = (value: string, row: ITradeGroup, fieldName: string): void => {
     const group: ITradeGroup = row;
     group[fieldName] = value;
     dispatch({ type: "UPDATEGROUP", payload: group });
@@ -72,8 +72,9 @@ const GroupManagement: React.FC<IGroupManagementProps> = (props: IGroupManagemen
       )
     },
     {
-      dataField: "Active", text: "Active", sort: true, editorRenderer: (editorProps: any, value: boolean, row: ITradeGroup) => (
-        <InputGroup.Checkbox value={row.Active.toString()} onChange={(e: any) => updateActive(e.currentTarget.value, row)}>
+      dataField: "Active", text: "Active", sort: true, formatter: (val: boolean) => val ? "Yes" : "No",
+      editorRenderer: (editorProps: any, value: boolean, row: ITradeGroup) => (
+        <InputGroup.Checkbox checked={row.Active} onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateActive(e.currentTarget.checked, row)}>
         </InputGroup.Checkbox>
       )
     },

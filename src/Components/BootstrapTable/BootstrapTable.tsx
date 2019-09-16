@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Table } from 'react-bootstrap';
-import uuid from 'uuid';
 
 export interface ITableColumn {
   dataField: string;
@@ -54,10 +53,10 @@ const BootstrapTable: React.FC<BootstrapTableProps> = (props: BootstrapTableProp
               {props.columns.map((col: ITableColumn, colIndex: number) => {
                 if (editing && editRow === dataIndex && editColumn === colIndex) {
                   // invoke edit mode.
-                  return (<td key={uuid()}>{col.editorRenderer("", data[col.dataField], data)}</td>)
+                  return (<td onBlur={editStop} key={colIndex}>{col.editorRenderer("", data[col.dataField], data)}</td>)
                 } else {
-                  return col.formatter === undefined ? (<td key={uuid()} onClick={() => editStart(dataIndex, colIndex)}>{data[col.dataField]}</td>)
-                    : (<td key={uuid()} onClick={() => editStart(dataIndex, colIndex)}>{col.formatter(data[col.dataField], data)}</td>)
+                  return col.formatter === undefined ? (<td key={colIndex} onClick={() => editStart(dataIndex, colIndex)}>{data[col.dataField]}</td>)
+                    : (<td key={colIndex} onClick={() => editStart(dataIndex, colIndex)}>{col.formatter(data[col.dataField], data)}</td>)
                 }
               })}
             </tr>)

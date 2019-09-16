@@ -55,7 +55,13 @@ const reducer = (state: IState, action: ActionType) => {
     case "UPDATETRADE":
       return produce(state, draftState => {
         const index: number = state.trades.findIndex(x => x.Id === action.payload.Id);
-        draftState.trades[index] = action.payload;
+        draftState.trades[index] = { ...action.payload };
+      });
+
+    case "UPDATEGROUP":
+      return produce(state, draftState => {
+        const index: number = state.groups.findIndex(x => x.Id === action.payload.Id);
+        draftState.groups[index] = { ...action.payload };
       });
 
     default:
