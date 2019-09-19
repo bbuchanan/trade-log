@@ -42,10 +42,6 @@ const GroupManagement: React.FC<IGroupManagementProps> = (props: IGroupManagemen
     );
   };
 
-  const editButton = (cell: any, row: any) => {
-    return <Button onClick={() => editGroup(row.Id)}>Edit</Button>;
-  };
-
   const textFieldChanged = (value: string, row: ITradeGroup, fieldName: string): void => {
     const group: ITradeGroup = row;
     group[fieldName] = value;

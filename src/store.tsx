@@ -43,6 +43,9 @@ const reducer = (state: IState, action: ActionType) => {
         if (!action.payload.Id) {
           action.payload.id = uuid();
         }
+        if (action.payload.GroupId && action.payload.GroupId.length > 0) {
+          action.payload.GroupName = state.groups.find(g => g.Id === action.payload.GroupId)!.Name;
+        } else { action.payload.GroupName = "(none)" }
 
         draftState.trades.push(action.payload);
       });
@@ -55,6 +58,9 @@ const reducer = (state: IState, action: ActionType) => {
     case "UPDATETRADE":
       return produce(state, draftState => {
         const index: number = state.trades.findIndex(x => x.Id === action.payload.Id);
+        if (action.payload.GroupId && action.payload.GroupId.length > 0) {
+          action.payload.GroupName = state.groups.find(g => g.Id === action.payload.GroupId)!.Name;
+        } else { action.payload.GroupName = "(none)" }
         draftState.trades[index] = { ...action.payload };
       });
 

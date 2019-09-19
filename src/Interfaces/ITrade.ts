@@ -7,7 +7,8 @@ export default interface ITrade extends Keyed {
   TransactionDate: Date;
   Underlying: string;
   TransactionType: ITransactionType;
-  Group?: string;
+  GroupId?: string;
+  GroupName?: string;
   Amount: number;
   Expiry?: Date;
   Strike?: number;

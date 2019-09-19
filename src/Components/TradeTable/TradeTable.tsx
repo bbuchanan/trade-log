@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import BootstrapTable, { ITableColumn } from "../BootstrapTable/BootstrapTable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import uuid from 'uuid';
 import { Store } from '../../store';
-import { Button, Form, InputGroup } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import moment from 'moment';
 import DateEditor from '../DateEditor/DateEditor';
 import ITrade from '../../Interfaces/ITrade';
@@ -14,7 +14,7 @@ interface ITradeTableProps {
 }
 
 const TradeTable: React.FC<ITradeTableProps> = (props: ITradeTableProps) => {
-  const { dispatch } = useContext(Store);
+  const { dispatch, state } = useContext(Store);
 
   const dateChanged = (value: Date, row: ITrade, fieldName: string): void => {
     const rowTrade: ITrade = row;
@@ -29,6 +29,11 @@ const TradeTable: React.FC<ITradeTableProps> = (props: ITradeTableProps) => {
 
   const updateTrade = (trade: ITrade): void => {
     dispatch({ type: "UPDATETRADE", payload: trade });
+  }
+
+  const groupIdChanged = (value: string, row: ITrade): void => {
+    row.GroupId = value;
+    updateTrade(row);
   }
 
   const addTrade = (): void => {
@@ -59,6 +64,15 @@ const TradeTable: React.FC<ITradeTableProps> = (props: ITradeTableProps) => {
   }, {
     dataField: "Underlying", text: "Underlying", sort: true, editorRenderer: (editorProps: any, value: string, row: ITrade) => (
       <Form.Control type="text" value={row.Underlying} onChange={(e: any) => updateTextField(e.currentTarget.value, row, "Underlying")} />
+    )
+  }, {
+    dataField: "GroupName", text: "Group", sort: true, editorRenderer: (editorProps: any, value: string, row: ITrade) => (
+      <Form.Control
+        onChange={(e: any) => groupIdChanged(e.currentTarget.value, row)}
+        as="select">
+        <option value={""}>{"(none)"}</option>
+        {state.groups.map(p => (<option value={p.Id} key={p.Id}>{p.Name}</option>))}
+      </Form.Control>
     )
   }];
 
